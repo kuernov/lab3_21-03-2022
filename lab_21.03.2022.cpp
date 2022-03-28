@@ -5,6 +5,8 @@ using namespace std;
 class Samochod {
     string rodzaj, marka, model;
     int rocznik, moc, przyspieszenie, zasieg;
+    int static liczba_samochodow;
+    void static wyswietl_liczbe_samochodow();
 
 public:
 
@@ -16,7 +18,14 @@ public:
         moc = m;
         przyspieszenie = p;
         zasieg = z;
+        liczba_samochodow++;
+        wyswietl_liczbe_samochodow();
         pokaz();
+    }
+    ~Samochod()
+    {
+        liczba_samochodow--;
+        wyswietl_liczbe_samochodow();
     }
 
     void pokaz() {
@@ -29,6 +38,13 @@ public:
         cout << "Zasieg: " << zasieg << endl;
     }
 };
+
+void Samochod::wyswietl_liczbe_samochodow()
+{
+    cout << "Aktualna liczba samochodow: " << liczba_samochodow << endl;
+}
+
+int Samochod::liczba_samochodow = 0;
 
 class Elektryczny : virtual public Samochod {
     int stan_baterii;
@@ -50,7 +66,7 @@ class Spalinowy : virtual public Samochod {
 
 public:
 
-    Spalinowy( string r = "sedan", string ma = "Volkswagen", string mo = "Passat", int ro = 2003, int m = 140, int p = 5, int z = 900, string typ_p = "diesel") :Samochod(r, ma, mo, ro, m, p, z) {
+    Spalinowy(string r = "sedan", string ma = "Volkswagen", string mo = "Passat", int ro = 2003, int m = 140, int p = 5, int z = 900, string typ_p = "diesel") :Samochod(r, ma, mo, ro, m, p, z) {
         typ_paliwa = typ_p;
         pokaz();
     }
@@ -62,8 +78,8 @@ public:
 
 class Hybrydowy :public Spalinowy, public Elektryczny {
 public:
-    Hybrydowy(string r = "suv", string ma = "Volkswagen", string mo = "Passat", int ro = 2003, int m = 140, int p = 5, int z = 900, string typ_p ="benzyna", int sb=60) :Elektryczny(sb), Spalinowy(typ_p), Samochod(r, ma, mo, ro, m, p, z) {
-  
+    Hybrydowy(string typ_p = "benzyna", string r = "suv", string ma = "Volkswagen", string mo = "Passat", int ro = 2003, int m = 140, int p = 5, int z = 900, int sb = 60) :Spalinowy(typ_p), Elektryczny(sb), Samochod(r, ma, mo, ro, m, p, z) {
+
     }
 
     void pokaz() {
@@ -76,11 +92,26 @@ public:
 int main()
 {
     //Elektryczny samochod_elektryczny;
-    Hybrydowy samochod_hybrydowy;
-    //samochod_hybrydowy.pokaz();
-    //samochod_elektryczny.pokaz();
-    //cout << endl;
-   // samochod_hybrydowy.pokaz();
+    Hybrydowy* hybryda;
+    hybryda = new Hybrydowy;
+    delete hybryda;
+    Hybrydowy samochod_hybrydowy1;
+    cout << endl;
+    Spalinowy samochod_spalinowy1;
+    cout << endl;
+    Hybrydowy samochod_hybrydowy2;
+    cout << endl;
+    Spalinowy samochod_spalinowy2;
+    cout << endl;
+    Spalinowy samochod_spalinowy3;
+    cout << endl;
+    Elektryczny samochod_elektryczny1;
+    cout << endl;
+    Hybrydowy samochod_hybrydowy3;
+    cout << endl;
+    Elektryczny samochod_elektryczny2;
+    cout << endl;
+    Elektryczny samochod_elektryczny3;
 
     return 0;
 }
